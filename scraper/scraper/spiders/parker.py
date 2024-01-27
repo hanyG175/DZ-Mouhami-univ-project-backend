@@ -7,7 +7,6 @@ from lawyers.models import Category
 from asgiref.sync import sync_to_async
 from channels.db import database_sync_to_async
 from django.core.files.storage import default_storage
-from django.utils.text import slugify
 
 class ParkerSpider(scrapy.Spider):
     name = "parker"

@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'phone_field',
     'rest_framework',
     'corsheaders',
+    "authentication",
 ]
 
 MIDDLEWARE = [
@@ -61,6 +62,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 ASGI_APPLICATION = 'backend.asgi.application'
+AUTH_USER_MODEL = 'authentication.User'
 
 ROOT_URLCONF = 'backend.urls'
 CORS_ORIGIN_ALLOW_ALL = True
@@ -136,3 +138,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+BASE_FRONTEND_URL = os.environ.get('DJANGO_BASE_FRONTEND_URL') # new
+
+# Google OAuth2 settings
+GOOGLE_OAUTH2_CLIENT_ID = os.environ.get('GOOGLE_OAUTH2_CLIENT_ID')
+GOOGLE_OAUTH2_CLIENT_SECRET = os.environ.get('GOOGLE_OAUTH2_CLIENT_SECRET')

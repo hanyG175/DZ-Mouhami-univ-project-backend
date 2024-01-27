@@ -18,10 +18,17 @@ from django.contrib import admin
 from django.urls import path, re_path,include
 from django.conf import settings
 from django.conf.urls.static import static
+from lawyers.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     re_path(r'^api/' , include('lawyers.urls')),
+    path("api/", include("authentication.urls")),
+    path('trusted_lawyers/',Trusted_lawyers),
+    path('profil_avocat_filtered/',ProfilAvocatListView.as_view()),
+    path('signup/', signup),
+    path('login/', user_login),
+    path('logout/', user_logout),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
