@@ -322,4 +322,7 @@ class ProfilAvocatListView(ListAPIView):
             return ProfilAvocat.objects.none() 
         return queryset
 
-       
+from django.shortcuts import render
+
+def index(request):
+    return render(request, 'index.html')    

@@ -21,6 +21,8 @@ from django.conf.urls.static import static
 from lawyers.views import *
 
 urlpatterns = [
+    path('', index, name='index'),
+
     path('admin/', admin.site.urls),
     re_path(r'^api/' , include('lawyers.urls')),
     path("api/", include("authentication.urls")),
