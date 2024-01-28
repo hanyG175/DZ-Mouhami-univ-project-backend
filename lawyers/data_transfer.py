@@ -8,5 +8,3 @@ from django.test import TestCase
 import requests ,os
 # Create your tests here.
 from lawyers.models import Lawyer, Avocat, ProfilAvocat
-
-print(1+1)
