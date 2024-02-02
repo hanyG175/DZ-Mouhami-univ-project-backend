@@ -54,6 +54,7 @@ class BlogSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ProfilAvocatSerializer(serializers.ModelSerializer):
+    avocat = AvocatSerializer()
     class Meta:
         model = ProfilAvocat
         fields = '__all__'
@@ -62,3 +63,9 @@ class ClientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Client
         fields = '__all__'
+# serializers.py
+
+class CoordinatesSerializer(serializers.Serializer):
+    latitude = serializers.FloatField()
+    longitude = serializers.FloatField()
+

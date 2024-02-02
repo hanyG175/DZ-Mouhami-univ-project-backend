@@ -2,6 +2,7 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import *
 
+
 urlpatterns = [
     path('lawyers/', LawyersListView.as_view(), name='lawyers-list'),
     path('lawyers/<int:pk>/', LawyersDetailView.as_view(), name='lawyer-detail'),
@@ -15,5 +16,6 @@ urlpatterns = [
     path('profile/<int:pk>/appointments/', AppointmentListView.as_view(), name='cutomer-appointments-list'),
     path('lawyers/<int:pk>/appointments/<app_id>', AppointmentDetailView.as_view(), name='lawyer-appointment-detail'),
     path('profile/<int:pk>/appointments/<app_id>', AppointmentDetailView.as_view(), name='customer-appointment-detail'),
+    path('get_coordinates/' ,get_coordinates,name='coordinates')
    
 ]

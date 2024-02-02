@@ -19,13 +19,16 @@ from django.urls import path, re_path,include
 from django.conf import settings
 from django.conf.urls.static import static
 from lawyers.views import *
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
 
 urlpatterns = [
-    path('', index, name='index'),
+    path('', include(router.urls)),
 
     path('admin/', admin.site.urls),
     re_path(r'^api/' , include('lawyers.urls')),
-    path("api/", include("authentication.urls")),
+    # path("api/", include("authentication.urls")),
     path('trusted_lawyers/',Trusted_lawyers),
     path('profil_avocat_filtered/',ProfilAvocatListView.as_view()),
     path('signup/', signup),

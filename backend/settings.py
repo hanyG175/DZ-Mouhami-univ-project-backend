@@ -32,7 +32,9 @@ SECRET_KEY = 'django-insecure-dd0q-^(#2@s#l8q34aa$%he$k%f-&^9n74o!%07wmuzt73$9x(
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000"  # Adjust this to your React app's URL
+]
 
 # Application definition
 
@@ -131,7 +133,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'projectgl\\build\static'),
+    'C:\\Users\\LENOVO\\Code\\GLPROJECT\\projetgl\\build'
 ]
 
 STATIC_URL = '/static/'

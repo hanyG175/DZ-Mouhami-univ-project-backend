@@ -5,9 +5,12 @@ from rest_framework.decorators import api_view,permission_classes
 from rest_framework.views import APIView
 from geopy.geocoders import Nominatim
 from rest_framework.permissions import AllowAny, IsAuthenticated
-
+import requests
 from .models import *
 from .serializers import *
+from rest_framework.authtoken.models import Token
+from django.http.response import JsonResponse
+from django.contrib.auth import authenticate, login, logout
 
 import django_filters
 from django_filters.rest_framework import DjangoFilterBackend
@@ -61,7 +64,7 @@ class LawyersDetailView(APIView):
 
 class LawyersProfileListView(APIView):
     def get(self, request, *args, **kwargs):
-        data = ProfilAvocat.objects.all()
+        data = ProfilAvocat.objects.all() 
         serializer = ProfilAvocatSerializer(data, context={'request': request}, many=True)
         return Response(serializer.data)
 
@@ -74,7 +77,7 @@ class LawyersProfileListView(APIView):
 class LawyersProfileDetailView(APIView):
     def get_object(self, pk):
         try:
-            return ProfilAvocat.objects.get(id=pk)
+            return ProfilAvocat.objects.select_related('avocat').get(avocat=pk)
         except ProfilAvocat.DoesNotExist:
             return None
         
@@ -255,8 +258,9 @@ def Trusted_lawyers(request):
 @api_view(['POST'])
 def signup(request):
     serializer = ClientSignUpSerializer(data=request.data)
-
+    print("serial00",serializer)
     if serializer.is_valid():
+        print("ser valid")
         user = serializer.save()
         user.set_password(request.data['password'])
         user.save()
@@ -290,39 +294,48 @@ def user_logout(request):
     return JsonResponse({'message': 'Logout successful'})
 
 class ProfilAvocatFilter(django_filters.FilterSet):
-    specialisation__name = django_filters.CharFilter(field_name='avocat__specialisation__name', lookup_expr='icontains')
-    langue__name = django_filters.CharFilter(field_name='avocat__langue__name', lookup_expr='icontains')
-    rating = django_filters.NumberFilter(field_name='rating', lookup_expr='exact')
-    adresse = django_filters.CharFilter(field_name='avocat__adresse', lookup_expr='icontains')
+    nom = django_filters.CharFilter(field_name='avocat__nom', lookup_expr='icontains')
+    print(nom)
+    location = django_filters.CharFilter(field_name='avocat__adresse', lookup_expr='icontains')
+    
     class Meta:
         model = ProfilAvocat
-        fields = ['specialisation__name', 'langue__name', 'rating','adresse']
+        fields = ['avocat__nom', 'avocat__adresse']
+    
+    # def filter_by_name_or_specialisation(self, queryset, name, value):
+    #     return queryset.filter(
+    #         django_filters.Q(avocat__nom__icontains=value)
+    #     )
 
 class ProfilAvocatListView(ListAPIView):
+    print('im here')
+    queryset = ProfilAvocat.objects.select_related('avocat').all()
     serializer_class = ProfilAvocatSerializer
     filterset_class = ProfilAvocatFilter
     filter_backends = [DjangoFilterBackend]
+    
 
-    def get_queryset(self):
-        queryset = ProfilAvocat.objects.all()
-        google_maps_link = self.request.query_params.get('adresse', None)
-        geolocator = Nominatim(user_agent = "city_extractor")
-        try :
-            location = geolocator.geocode(google_maps_link, language='en')
-            if location and location.address:
-                city = location.raw.get('address', {}).get('city')  # Extract city from address
-                if city:
-                    queryset = queryset.filter(avocat__adresse__icontains=city)
-                else:
-                    return  ProfilAvocat.objects.none() 
+    
+# views.py
 
-            else:
-                return ProfilAvocat.objects.none() 
-        except Exception as e:
-            return ProfilAvocat.objects.none() 
-        return queryset
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from .serializers import CoordinatesSerializer
 
-from django.shortcuts import render
+@api_view(['GET'])
+def get_coordinates(request):
+    print(request.GET.get('address', ''))
+    address = request.GET.get('address', '')  # Get the address parameter from the query string
+    if not address:
+        return Response({'error': 'Address parameter is required'}, status=400)
 
-def index(request):
-    return render(request, 'index.html')    
+    url = f'https://nominatim.openstreetmap.org/search?q={address}&format=json'
+    response = requests.get(url)
+    data = response.json()
+    
+    if data:
+        location = data[0]  # Assuming the first result is the most relevant
+        serializer = CoordinatesSerializer({'latitude': location['lat'], 'longitude': location['lon']})
+        return Response(serializer.data)
+    else:
+        return Response({'error': 'Coordinates not found for the provided address'}, status=404)

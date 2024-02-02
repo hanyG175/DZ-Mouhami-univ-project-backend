@@ -72,6 +72,7 @@ class Blog(models.Model):
     title = models.CharField(max_length=200)
     image = models.ImageField(upload_to='blog_images/')
     body = models.TextField()
+
 class Avocat(models.Model):
     nom = models.CharField(max_length=100)
     adresse = models.TextField()
@@ -81,10 +82,10 @@ class Avocat(models.Model):
     languages =models.ManyToManyField(Language, blank=True)
 
     def __str__(self):
-        return f"{self.nom} {self.prenom}"
+        return f"{self.nom}"
 
 class ProfilAvocat(models.Model):
-    avocat = models.OneToOneField(Avocat, on_delete=models.CASCADE)
+    avocat = models.OneToOneField(Avocat,related_name = "profile", on_delete=models.CASCADE)
     experience = models.TextField()
     photo = models.ImageField(upload_to='photos/' ,default="avocat001-230x230_eqCZhNQ.jpg")
     rating = models.FloatField(null=True)
@@ -93,7 +94,7 @@ class ProfilAvocat(models.Model):
     working_hours=  models.TextField(default='N/A')
 
     def __str__(self):
-        return f"Profil de {self.avocat.prenom} {self.avocat.nom}"
+        return f"{self.avocat.nom}"
 
 class Appointment(models.Model):
     AppointmentID =models.AutoField("rdvID" , primary_key=True)
