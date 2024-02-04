@@ -11,11 +11,12 @@ from .serializers import *
 from rest_framework.authtoken.models import Token
 from django.http.response import JsonResponse
 from django.contrib.auth import authenticate, login, logout
-
 import django_filters
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.generics import ListAPIView
-
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from .serializers import CoordinatesSerializer
 
 class LawyersListView(APIView):
     def get(self, request, *args, **kwargs):
@@ -105,8 +106,7 @@ class LawyersProfileDetailView(APIView):
             return Response(status=status.HTTP_404_NOT_FOUND)
 
         lawyer.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-    
+        return Response(status=status.HTTP_204_NO_CONTENT)    
 
 class CategoryListView(APIView):
     def get(self, request, *args, **kwargs):
@@ -248,7 +248,6 @@ class AppointmentDetailView(APIView):
         review.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-
 @api_view(['GET'])
 def Trusted_lawyers(request):
     avocat = ProfilAvocat.objects.order_by('-rating')[:3]
@@ -264,9 +263,7 @@ def signup(request):
         user = serializer.save()
         user.set_password(request.data['password'])
         user.save()
-        token = Token.objects.create(user=user)
-        return Response({'token': token.key, 'user': serializer.data}, status=status.HTTP_201_CREATED)
-
+        return Response( status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
@@ -277,16 +274,14 @@ def user_login(request):
     """
     email = request.data.get('email')
     password = request.data.get('password')
-
     user = authenticate(request, email=email, password=password)
 
     if user is not None:
         login(request, user)
-        token, created = Token.objects.get_or_create(user=user)
-        return JsonResponse({'token': token.key, 'user': user.email})
+        return JsonResponse({ 'user': user.email})
     else:
         return JsonResponse({'error': 'Invalid credentials'}, status=400)
-
+    
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def user_logout(request):
@@ -314,14 +309,6 @@ class ProfilAvocatListView(ListAPIView):
     filterset_class = ProfilAvocatFilter
     filter_backends = [DjangoFilterBackend]
     
-
-    
-# views.py
-
-from rest_framework.response import Response
-from rest_framework.decorators import api_view
-from .serializers import CoordinatesSerializer
-
 @api_view(['GET'])
 def get_coordinates(request):
     print(request.GET.get('address', ''))

@@ -49,12 +49,28 @@ class Client(AbstractBaseUser,PermissionsMixin):
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name','last_name','mobile']
-
+    groups = models.ManyToManyField(
+        'auth.Group',
+        related_name='client_groups',
+        blank=True,
+        verbose_name='groups',
+        help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.',
+    )
+    user_permissions = models.ManyToManyField(
+        'auth.Permission',
+        related_name='client_user_permissions',
+        blank=True,
+        verbose_name='user permissions',
+        help_text='Specific permissions for this user.',
+    )
     class Meta:
         verbose_name = 'Client'
         verbose_name_plural = 'Clients'
         # This is important for preventing clashes
         swappable = 'AUTH_USER_MODEL'
+        db_table = 'client'
+    def __str__(self):
+        return self.email
 # Add related_name attributes to the groups and user_permissions fields
 Client._meta.get_field('groups').related_name = 'client_groups'
 Client._meta.get_field('user_permissions').related_name = 'client_user_permissions'

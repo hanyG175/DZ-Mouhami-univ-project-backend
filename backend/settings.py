@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     "authentication",
+    'django_extensions'
 ]
 
 MIDDLEWARE = [
@@ -64,7 +65,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 ASGI_APPLICATION = 'backend.asgi.application'
-AUTH_USER_MODEL = 'authentication.User'
+AUTH_USER_MODEL = 'lawyers.Client'
 
 ROOT_URLCONF = 'backend.urls'
 CORS_ORIGIN_ALLOW_ALL = True
