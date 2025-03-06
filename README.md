@@ -55,53 +55,53 @@ Below is a brief overview of the key endpoints defined in lawyers/urls.py. You c
 
 ### Lawyers
 
-GET /lawyers/: Retrieve all lawyers.
-POST /lawyers/: Create a new lawyer.
-GET /lawyers/<int:pk>/: Retrieve a specific lawyer by ID.
-PUT /lawyers/<int:pk>/: Update a specific lawyer by ID.
-DELETE /lawyers/<int:pk>/: Delete a specific lawyer by ID.
+- GET /lawyers/: Retrieve all lawyers.
+- POST /lawyers/: Create a new lawyer.
+- GET /lawyers/<int:pk>/: Retrieve a specific lawyer by ID.
+- PUT /lawyers/<int:pk>/: Update a specific lawyer by ID.
+- DELETE /lawyers/<int:pk>/: Delete a specific lawyer by ID.
 
 ### Lawyer Profiles
 
-GET /profiles/: Retrieve all lawyer profiles.
-POST /profiles/: Create a new lawyer profile.
-GET /profile/<int:pk>/: Retrieve a lawyer profile by the associated lawyer ID.
-PUT /profile/<int:pk>/: Update a lawyer profile.
-DELETE /profile/<int:pk>/: Delete a lawyer profile.
+- GET /profiles/: Retrieve all lawyer profiles.
+- POST /profiles/: Create a new lawyer profile.
+- GET /profile/<int:pk>/: Retrieve a lawyer profile by the associated lawyer ID.
+- PUT /profile/<int:pk>/: Update a lawyer profile.
+- DELETE /profile/<int:pk>/: Delete a lawyer profile.
 
 ### Categories
 
-GET /categories/: Retrieve all categories.
-POST /categories/: Create a new category.
-GET /categories/<int:pk>/: Retrieve a specific category.
-PUT /categories/<int:pk>/: Update a category.
-DELETE /categories/<int:pk>/: Delete a category.
+- GET /categories/: Retrieve all categories.
+- POST /categories/: Create a new category.
+- GET /categories/<int:pk>/: Retrieve a specific category.
+- PUT /categories/<int:pk>/: Update a category.
+- DELETE /categories/<int:pk>/: Delete a category.
 
 ### Reviews
 
-GET /lawyers/<int:pk>/reviews/: Retrieve all reviews for a specific lawyer.
-POST /lawyers/<int:pk>/reviews/: Create a review for a lawyer.
-GET /lawyers/<int:pk>/reviews/<review_id>: Retrieve a specific review.
-PUT /lawyers/<int:pk>/reviews/<review_id>: Update a review.
-DELETE /lawyers/<int:pk>/reviews/<review_id>: Delete a review.
+- GET /lawyers/<int:pk>/reviews/: Retrieve all reviews for a specific lawyer.
+- POST /lawyers/<int:pk>/reviews/: Create a review for a lawyer.
+- GET /lawyers/<int:pk>/reviews/<review_id>: Retrieve a specific review.
+- PUT /lawyers/<int:pk>/reviews/<review_id>: Update a review.
+- DELETE /lawyers/<int:pk>/reviews/<review_id>: Delete a review.
 
 ### Appointments
 
-GET /lawyers/<int:pk>/appointments/: Retrieve all appointments for a specific lawyer.
-POST /lawyers/<int:pk>/appointments/: Create an appointment for a lawyer.
-GET /lawyers/<int:pk>/appointments/<app_id>: Retrieve a specific appointment.
-PUT /lawyers/<int:pk>/appointments/<app_id>: Update an appointment.
-DELETE /lawyers/<int:pk>/appointments/<app_id>: Delete an appointment.
+- GET /lawyers/<int:pk>/appointments/: Retrieve all appointments for a specific lawyer.
+- POST /lawyers/<int:pk>/appointments/: Create an appointment for a lawyer.
+- GET /lawyers/<int:pk>/appointments/<app_id>: Retrieve a specific appointment.
+- PUT /lawyers/<int:pk>/appointments/<app_id>: Update an appointment.
+- DELETE /lawyers/<int:pk>/appointments/<app_id>: Delete an appointment.
 
 ### Coordinates
 
-GET /get_coordinates/?address=<your_address>: Retrieves the latitude and longitude for the given address using the Nominatim API.
+- GET /get_coordinates/?address=<your_address>: Retrieves the latitude and longitude for the given address using the Nominatim API.
 
 ### Authentication
 
-POST /signup/: Register a new client user.
-POST /user_login/: Log in a user with email and password.
-POST /user_logout/: Log out the currently authenticated user.
+- POST /signup/: Register a new client user.
+- POST /user_login/: Log in a user with email and password.
+- POST /user_logout/: Log out the currently authenticated user.
 
 ---
 
